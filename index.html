@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>太田先生からの挑戦状</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -24,202 +24,207 @@
             align-items: center;
             user-select: none;
             min-height: 100vh;
+            overflow-x: hidden;
         }
 
-        /* メニューデザインの刷新 */
+        /* メニューデザイン */
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 1.5rem;
-            width: 95%;
-            max-width: 900px;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            width: 90%;
+            max-width: 1200px;
             padding: 20px;
+        }
+
+        @media (min-width: 480px) {
+            .menu-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (min-width: 900px) {
+            .menu-grid { grid-template-columns: repeat(5, 1fr); }
         }
 
         .menu-item {
             position: relative;
-            aspect-ratio: 1 / 1.1;
+            padding: 1.5rem 1rem;
             background: white;
             border: 2px solid #e2e8f0;
-            border-radius: 24px;
+            border-radius: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05);
         }
 
         .menu-item:hover {
-            transform: translateY(-5px);
+            transform: translateY(-4px);
             border-color: #3b82f6;
-            box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+            box-shadow: 0 12px 20px -5px rgba(0,0,0,0.1);
         }
 
         .menu-item.cleared {
-            background: #fffef2;
+            background: #fffcf0;
             border-color: #fbbf24;
         }
 
-        /* 王冠を斜めにかぶせる */
         .crown-icon {
             position: absolute;
-            top: -15px;
-            right: -5px;
-            font-size: 2.5rem;
-            transform: rotate(20deg);
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
-            pointer-events: none;
-            z-index: 20;
+            top: -12px;
+            right: -8px;
+            font-size: 2.2rem;
+            transform: rotate(15deg);
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.15));
+            z-index: 10;
         }
 
         .question-number {
-            font-size: 0.875rem;
-            color: #64748b;
+            font-size: 0.75rem;
+            color: #94a3b8;
             font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
             margin-bottom: 0.25rem;
         }
 
         .question-label {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             font-weight: 900;
-            color: #1e293b;
+            color: #334155;
         }
 
-        .cleared .question-label {
-            color: #b45309;
-        }
-
-        /* ゲーム画面のレイアウト */
+        /* パズルレイアウト */
         .cross-layout {
             display: grid;
-            grid-template-columns: 100px 140px 100px;
-            grid-template-rows: 100px 140px 100px;
-            gap: 40px;
+            grid-template-columns: 70px 100px 70px;
+            grid-template-rows: 70px 100px 70px;
+            gap: 20px;
             align-items: center;
             justify-items: center;
             position: relative;
         }
 
+        @media (min-width: 640px) {
+            .cross-layout {
+                grid-template-columns: 100px 140px 100px;
+                grid-template-rows: 100px 140px 100px;
+                gap: 40px;
+            }
+        }
+
         .char-box {
-            width: 100px;
-            height: 100px;
-            background: white;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 3rem;
-            border: 3px solid #333;
-            z-index: 10;
-            position: relative;
-            box-shadow: 2px 2px 5px rgba(0,0,0,0.1);
+            width: 70px; height: 70px; background: white; border-radius: 12px;
+            display: flex; align-items: center; justify-content: center; font-size: 2rem;
+            border: 3px solid #334155; z-index: 10; position: relative;
+        }
+
+        @media (min-width: 640px) {
+            .char-box { width: 100px; height: 100px; font-size: 3rem; }
         }
 
         .center-box {
-            width: 140px;
-            height: 140px;
-            background: white;
-            border: 6px solid #3b82f6;
-            border-radius: 20px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 4.5rem;
-            color: #d946ef;
-            font-weight: 900;
-            z-index: 10;
-            position: relative;
+            width: 100px; height: 100px; background: white; border: 5px solid #3b82f6;
+            border-radius: 16px; display: flex; align-items: center; justify-content: center;
+            font-size: 3rem; color: #3b82f6; font-weight: 900; z-index: 10;
+            transition: all 0.3s ease;
         }
 
-        .center-box.correct {
-            color: #e11d48;
-            border-color: #e11d48;
-            background: #fff1f2;
+        @media (min-width: 640px) {
+            .center-box { width: 140px; height: 140px; font-size: 4.5rem; border-width: 6px; }
         }
+
+        .center-box.correct { color: #e11d48; border-color: #e11d48; background: #fff1f2; }
 
         /* 矢印 */
         .arrow { position: absolute; background-color: var(--arrow-color); z-index: 5; }
         .arrow::after { content: ''; position: absolute; width: 0; height: 0; border-style: solid; }
-        .arrow-top { width: 4px; height: 25px; top: 108px; left: 50%; transform: translateX(-50%); }
+        .arrow-top { width: 4px; height: 20px; top: 78px; left: 50%; transform: translateX(-50%); }
         .arrow-top::after { bottom: -8px; left: -6px; border-width: 10px 8px 0 8px; border-color: var(--arrow-color) transparent transparent transparent; }
-        .arrow-left { width: 25px; height: 4px; left: 108px; top: 50%; transform: translateY(-50%); }
+        .arrow-left { width: 20px; height: 4px; left: 78px; top: 50%; transform: translateY(-50%); }
         .arrow-left::after { right: -8px; top: -6px; border-width: 8px 0 8px 10px; border-color: transparent transparent transparent var(--arrow-color); }
-        .arrow-bottom { width: 4px; height: 25px; bottom: 108px; left: 50%; transform: translateX(-50%); }
+        .arrow-bottom { width: 4px; height: 20px; bottom: 78px; left: 50%; transform: translateX(-50%); }
         .arrow-bottom::after { bottom: -8px; left: -6px; border-width: 10px 8px 0 8px; border-color: var(--arrow-color) transparent transparent transparent; }
-        .arrow-right { width: 25px; height: 4px; right: 108px; top: 50%; transform: translateY(-50%); }
+        .arrow-right { width: 20px; height: 4px; right: 78px; top: 50%; transform: translateY(-50%); }
         .arrow-right::after { right: -8px; top: -6px; border-width: 8px 0 8px 10px; border-color: transparent transparent transparent var(--arrow-color); }
 
-        #canvas-container {
-            width: 400px;
-            height: 400px;
-            background: white;
-            border: 6px solid #000;
-            border-radius: 20px;
-            position: relative;
-            touch-action: none;
-            overflow: hidden;
-            cursor: crosshair;
+        @media (min-width: 640px) {
+            .arrow-top { top: 108px; height: 25px; }
+            .arrow-left { left: 108px; width: 25px; }
+            .arrow-bottom { bottom: 108px; height: 25px; }
+            .arrow-right { right: 108px; width: 25px; }
         }
 
-        .dashed-line {
-            position: absolute;
-            pointer-events: none;
-            z-index: 1;
-            border: 1px dashed #e2e8f0;
+        /* キャンバス */
+        #canvas-container {
+            width: 320px; height: 320px; background: white; border: 5px solid #1e293b;
+            border-radius: 20px; position: relative; touch-action: none; overflow: hidden;
         }
+        @media (min-width: 640px) {
+            #canvas-container { width: 400px; height: 400px; border-width: 6px; }
+        }
+
+        .dashed-line { position: absolute; pointer-events: none; z-index: 1; border: 1px dashed #e2e8f0; }
         .line-h { width: 100%; top: 50%; left: 0; border-width: 1px 0 0 0; }
         .line-v { height: 100%; left: 50%; top: 0; border-width: 0 0 0 1px; }
 
+        /* キャンバス内の「お手本」表示 */
+        #canvas-hint {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 240px;
+            color: rgba(0, 0, 0, 0.08); /* 非常に薄いグレー */
+            pointer-events: none;
+            z-index: 2;
+            display: none;
+        }
+        @media (min-width: 640px) {
+            #canvas-hint { font-size: 300px; }
+        }
+
         canvas { position: relative; z-index: 10; width: 100%; height: 100%; background: transparent; }
 
-        .game-container { display: flex; flex-direction: column; align-items: center; gap: 2rem; width: 100%; }
+        .game-container { display: flex; flex-direction: column; align-items: center; gap: 1.5rem; width: 100%; padding: 0 10px; }
         @media (min-width: 900px) {
-            .game-container { flex-direction: row; justify-content: center; align-items: flex-start; }
+            .game-container { flex-direction: row; justify-content: center; align-items: flex-start; gap: 4rem; }
             .game-container.left-handed { flex-direction: row-reverse; }
         }
 
         .candidate-btn {
-            background: white;
-            border: 3px solid #3b82f6;
-            padding: 12px 32px;
-            font-size: 3rem;
-            border-radius: 20px;
-            margin: 10px;
-            cursor: pointer;
-            box-shadow: 0 6px 0 #bfdbfe;
-            min-width: 100px;
+            background: white; border: 3px solid #3b82f6; padding: 8px 24px; font-size: 2.5rem;
+            border-radius: 16px; margin: 8px; cursor: pointer; box-shadow: 0 4px 0 #bfdbfe; transition: all 0.1s;
         }
+        .candidate-btn:active { transform: translateY(4px); box-shadow: none; }
     </style>
 </head>
-<body class="p-4">
+<body class="p-2 sm:p-4">
 
     <!-- メニュー画面 -->
-    <div id="menu-screen" class="w-full max-w-5xl text-center py-10">
-        <h1 class="text-5xl font-black text-slate-800 mb-4">太田先生からの挑戦状</h1>
-        <p class="text-slate-500 mb-10 font-bold text-lg">真ん中に入る漢字を、ていねいに書こう！</p>
+    <div id="menu-screen" class="w-full max-w-5xl text-center py-6 sm:py-10">
+        <h1 class="text-3xl sm:text-5xl font-black text-slate-800 mb-2">太田先生からの挑戦状</h1>
+        <p class="text-slate-500 mb-6 sm:mb-10 font-bold text-sm sm:text-lg">真ん中に入る漢字を、ていねいに書こう！</p>
         
-        <div id="stats" class="mb-10 text-amber-600 font-black bg-amber-50 px-10 py-3 rounded-2xl border-2 border-amber-200 inline-flex items-center gap-3 text-2xl shadow-sm">
+        <div id="stats" class="mb-8 text-amber-600 font-black bg-amber-50 px-6 py-2 rounded-xl border-2 border-amber-200 inline-flex items-center gap-2 text-xl shadow-sm">
             <span>👑 獲得数:</span>
             <span id="stat-count">0 / 10</span>
         </div>
-
         <div class="menu-grid mx-auto" id="menu-grid"></div>
     </div>
 
     <!-- ゲーム画面 -->
     <div id="game-screen" class="hidden w-full flex flex-col items-center">
-        <div class="w-full max-w-4xl flex justify-between items-center mb-10 mt-4">
-            <button onclick="showMenu()" class="text-lg font-bold px-6 py-2 bg-white rounded-2xl border-2 border-slate-200 shadow-sm hover:bg-slate-50 active:translate-y-0.5 transition-all">← もどる</button>
-            <div id="problem-title" class="text-3xl font-black text-slate-800">問題 1</div>
-            <button onclick="toggleHandedness()" class="text-lg font-bold px-6 py-2 bg-white rounded-2xl border-2 border-slate-200 shadow-sm hover:bg-slate-50 active:translate-y-0.5 transition-all">
-                <span id="hand-text">左右切替</span>
-            </button>
+        <div class="w-full max-w-4xl flex justify-between items-center mb-6 sm:mb-10 mt-2">
+            <button onclick="showMenu()" class="text-sm sm:text-lg font-bold px-4 sm:px-6 py-2 bg-white rounded-xl border-2 border-slate-200 shadow-sm">← もどる</button>
+            <div id="problem-title" class="text-xl sm:text-3xl font-black text-slate-800">問題 1</div>
+            <button onclick="toggleHandedness()" class="text-sm sm:text-lg font-bold px-4 sm:px-6 py-2 bg-white rounded-xl border-2 border-slate-200 shadow-sm">切替</button>
         </div>
 
         <div id="main-container" class="game-container">
-            <div class="flex flex-col items-center min-w-[340px]">
+            <div class="flex flex-col items-center">
                 <div class="cross-layout">
                     <div class="arrow arrow-top"></div>
                     <div class="arrow arrow-left"></div>
@@ -235,27 +240,27 @@
                     <div class="char-box" id="q-bottom"></div>
                     <div></div>
                 </div>
-                <div id="game-msg" class="text-2xl font-black h-24 mt-8 flex flex-col items-center justify-center text-center"></div>
-                <button id="next-btn" onclick="nextQuestion()" class="hidden bg-blue-500 hover:bg-blue-600 text-white px-12 py-4 rounded-full text-2xl font-black shadow-lg transition-all transform hover:scale-105 active:scale-95">つぎへ進む</button>
+                <div id="game-msg" class="text-xl sm:text-2xl font-black h-20 mt-4 flex flex-col items-center justify-center text-center px-4"></div>
+                <button id="next-btn" onclick="nextQuestion()" class="hidden bg-blue-500 text-white px-8 py-3 rounded-full text-xl font-black shadow-lg">つぎへ進む</button>
             </div>
 
-            <div class="flex flex-col items-center">
-                <div class="flex justify-between w-full mb-3 px-1">
-                    <div class="text-sm font-bold text-slate-400">枠の中に一画ずつ書いてね</div>
-                    <div class="text-xs font-bold text-slate-500 bg-slate-100 px-2 py-1 rounded" id="hand-status">右利き用</div>
+            <div class="flex flex-col items-center w-full max-w-[400px]">
+                <div class="flex justify-between w-full mb-2 px-1 text-xs font-bold text-slate-400">
+                    <div>枠の中に一画ずつ書いてね</div>
+                    <div id="hand-status">右利き</div>
                 </div>
                 <div id="canvas-container">
                     <div class="dashed-line line-h"></div>
                     <div class="dashed-line line-v"></div>
+                    <div id="canvas-hint"></div>
                     <canvas id="hw-canvas"></canvas>
                 </div>
-                <div class="flex gap-4 mt-8 w-full">
-                    <button onclick="clearCanvas()" class="flex-1 bg-white border-2 border-slate-200 hover:bg-slate-50 px-6 py-4 rounded-2xl font-bold transition-all active:translate-y-0.5 shadow-sm">消す</button>
-                    <button id="recognize-btn" onclick="recognize()" class="flex-[2] bg-slate-800 hover:bg-slate-900 text-white px-12 py-4 rounded-2xl font-bold text-xl shadow-lg transition-all transform active:scale-95">判定する</button>
+                <div class="flex gap-3 mt-4 w-full">
+                    <button onclick="clearCanvas()" class="flex-1 bg-white border-2 border-slate-200 py-3 rounded-xl font-bold">消す</button>
+                    <button id="recognize-btn" onclick="recognize()" class="flex-[2] bg-slate-800 text-white py-3 rounded-xl font-bold text-lg shadow-lg">判定する</button>
                 </div>
                 
-                <div id="candidate-area" class="hidden mt-6 p-6 bg-white rounded-3xl border-4 border-blue-100 w-full text-center shadow-xl">
-                    <div class="text-blue-500 font-bold mb-3 text-sm">認識結果：</div>
+                <div id="candidate-area" class="hidden mt-4 p-4 bg-white rounded-2xl border-4 border-blue-50 w-full text-center shadow-lg">
                     <div id="candidates" class="flex flex-wrap justify-center"></div>
                 </div>
             </div>
@@ -273,29 +278,29 @@
             { id: 7, top: "質", bottom: "数", left: "酸", right: "足", answer: "素", strokes: 10 },
             { id: 8, top: "評", bottom: "明", left: "小", right: "決", answer: "判", strokes: 7 },
             { id: 9, top: "変", bottom: "式", left: "台", right: "見", answer: "形", strokes: 7 },
-            { id: 10, top: "軽", bottom: "少", left: "加", right: "点", answer: "減", strokes: 12 },
+            { id: 10, top: "軽", bottom: "少", left: "加", right: "点", answer: "減", strokes: 12 }
         ];
 
         let currentIdx = 0;
-        const STORAGE_KEY = 'ota_v20_save';
-        const HAND_KEY = 'ota_v20_hand';
-        let clearedQuestions = JSON.parse(localStorage.getItem(STORAGE_KEY)) || [];
-        let leftHanded = localStorage.getItem(HAND_KEY) === 'true';
+        let clearedQuestions = JSON.parse(localStorage.getItem('ota_v21_save')) || [];
+        let leftHanded = localStorage.getItem('ota_v21_hand') === 'true';
 
         const canvas = document.getElementById('hw-canvas');
         const ctx = canvas.getContext('2d');
+        const hintEl = document.getElementById('canvas-hint');
         let strokes = [];
         let drawing = false;
 
         function initCanvas() {
-            canvas.width = 400; canvas.height = 400;
+            const size = 400; 
+            canvas.width = size; canvas.height = size;
             ctx.lineWidth = 14; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#1a1a1a';
             
             const getPos = (e) => {
                 const rect = canvas.getBoundingClientRect();
                 const clientX = e.touches ? e.touches[0].clientX : e.clientX;
                 const clientY = e.touches ? e.touches[0].clientY : e.clientY;
-                return [(clientX - rect.left) * (400 / rect.width), (clientY - rect.top) * (400 / rect.height)];
+                return [(clientX - rect.left) * (size / rect.width), (clientY - rect.top) * (size / rect.height)];
             };
             
             const start = (e) => { 
@@ -313,7 +318,11 @@
             canvas.addEventListener('touchstart', start, {passive:false}); canvas.addEventListener('touchmove', move, {passive:false}); canvas.addEventListener('touchend', end);
         }
 
-        function showMenu() { document.getElementById('menu-screen').classList.remove('hidden'); document.getElementById('game-screen').classList.add('hidden'); renderMenu(); }
+        function showMenu() { 
+            document.getElementById('menu-screen').classList.remove('hidden'); 
+            document.getElementById('game-screen').classList.add('hidden'); 
+            renderMenu(); 
+        }
         
         function renderMenu() {
             const grid = document.getElementById('menu-grid'); grid.innerHTML = '';
@@ -321,16 +330,11 @@
                 const isCleared = clearedQuestions.includes(q.id);
                 const item = document.createElement('div');
                 item.className = `menu-item ${isCleared ? 'cleared' : ''}`;
-                
-                // 王冠を斜めにかぶせる配置
-                let content = '';
-                if(isCleared) {
-                    content += `<div class="crown-icon">👑</div>`;
-                }
-                content += `<div class="question-number">Question ${i+1}</div>`;
-                content += `<div class="question-label">第 ${i+1} 問</div>`;
-                
-                item.innerHTML = content;
+                item.innerHTML = `
+                    ${isCleared ? '<div class="crown-icon">👑</div>' : ''}
+                    <div class="question-number">No. ${i+1}</div>
+                    <div class="question-label">第 ${i+1} 問</div>
+                `;
                 grid.appendChild(item);
                 item.onclick = () => { currentIdx = i; document.getElementById('menu-screen').classList.add('hidden'); document.getElementById('game-screen').classList.remove('hidden'); loadQuestion(); };
             });
@@ -345,29 +349,28 @@
             const display = document.getElementById('center-display');
             display.innerText = "？"; display.classList.remove('correct');
             document.getElementById('game-msg').innerText = ""; document.getElementById('next-btn').classList.add('hidden');
+            
+            // ヒント表示リセット
+            hintEl.innerText = "";
+            hintEl.style.display = "none";
+            
             clearCanvas(); applyHandedness();
         }
 
         function clearCanvas() { ctx.clearRect(0,0,400,400); strokes = []; document.getElementById('candidate-area').classList.add('hidden'); }
 
-        function toggleHandedness() { leftHanded = !leftHanded; localStorage.setItem(HAND_KEY, leftHanded); applyHandedness(); }
+        function toggleHandedness() { leftHanded = !leftHanded; localStorage.setItem('ota_v21_hand', leftHanded); applyHandedness(); }
         function applyHandedness() {
             const container = document.getElementById('main-container');
             const statusText = document.getElementById('hand-status');
-            if (leftHanded) { 
-                container.classList.add('left-handed'); 
-                statusText.innerText = '左利き用';
-            } else { 
-                container.classList.remove('left-handed'); 
-                statusText.innerText = '右利き用';
-            }
+            if (leftHanded) { container.classList.add('left-handed'); statusText.innerText = '左利き'; }
+            else { container.classList.remove('left-handed'); statusText.innerText = '右利き'; }
         }
 
         async function recognize() {
             if (strokes.length === 0) return;
             const btn = document.getElementById('recognize-btn'); 
             btn.disabled = true; btn.innerText = "判定中...";
-
             const ink = strokes.map(s => [s.map(p => p[0]), s.map(p => p[1]), s.map(p => p[2])]);
             try {
                 const res = await fetch('https://www.google.com/inputtools/request?ime=handwriting&app=autodraw&dbg=1&cs=1&oe=UTF-8', {
@@ -379,59 +382,55 @@
                     const answer = questions[currentIdx].answer;
                     const targetStrokes = questions[currentIdx].strokes;
                     const userStrokes = strokes.length;
-
-                    // 厳格な判定ロジック
                     const isStrokeCountValid = (userStrokes === targetStrokes) || (userStrokes === targetStrokes - 1);
                     
-                    if (candidates[0] === answer && isStrokeCountValid) {
-                        handleCorrect();
-                        return;
-                    }
-
+                    if (candidates[0] === answer && isStrokeCountValid) { handleCorrect(); return; }
+                    
                     if (candidates.includes(answer)) {
                         document.getElementById('candidate-area').classList.remove('hidden');
                         const area = document.getElementById('candidates'); 
-                        area.innerHTML = '';
+                        area.innerHTML = `<div class="text-blue-500 font-bold mb-2 text-xs">これかな？</div>`;
                         const b = document.createElement('button'); 
-                        b.className = 'candidate-btn'; 
-                        b.innerText = answer; 
+                        b.className = 'candidate-btn'; b.innerText = answer; 
                         b.onclick = () => {
                             if (isStrokeCountValid) {
                                 handleCorrect();
                             } else {
-                                document.getElementById('game-msg').innerHTML = "<span class='text-orange-600 font-bold'>うーん、書き方が不十分かも？</span><br><span class='text-sm text-slate-500'>一画ずつ、最後まできちんと書いてみて。</span>";
+                                // 画数が違う場合：キャンバス内にお手本を表示
+                                hintEl.innerText = answer;
+                                hintEl.style.display = "block";
+                                document.getElementById('game-msg').innerHTML = "<span class='text-orange-600 text-sm'>一画ずつ、ていねいになぞってみてね。</span>";
                                 document.getElementById('candidate-area').classList.add('hidden');
+                                clearCanvas();
                             }
                         };
                         area.appendChild(b);
                     } else {
-                        document.getElementById('game-msg').innerHTML = "<span class='text-slate-400 font-bold text-xl'>ざんねん！ちがうよ。</span><br><span class='text-sm text-slate-400 mt-2'>もっとていねいに書いてみてね。</span>";
-                        document.getElementById('candidate-area').classList.add('hidden');
+                        document.getElementById('game-msg').innerHTML = "<span class='text-slate-400'>もう一回、ていねいに書いてみよう！</span>";
                     }
                 }
-            } catch(e) {
-                document.getElementById('game-msg').innerText = "通信エラー";
-            } finally { btn.disabled = false; btn.innerText = "判定する"; }
+            } catch(e) { document.getElementById('game-msg').innerText = "通信エラー"; } 
+            finally { btn.disabled = false; btn.innerText = "判定する"; }
         }
 
         function handleCorrect() {
             const display = document.getElementById('center-display');
             display.innerText = questions[currentIdx].answer;
             display.classList.add('correct');
-            document.getElementById('game-msg').innerHTML = "<span class='text-red-500 font-black text-4xl animate-bounce mb-2'>✨ 正解！ ✨</span>";
+            document.getElementById('game-msg').innerHTML = "<span class='text-red-500 font-black text-3xl animate-bounce'>✨ 正解！ ✨</span>";
             document.getElementById('candidate-area').classList.add('hidden');
+            hintEl.style.display = "none"; // 正解したらヒントは消す
+            
             if (!clearedQuestions.includes(questions[currentIdx].id)) { 
                 clearedQuestions.push(questions[currentIdx].id); 
-                localStorage.setItem(STORAGE_KEY, JSON.stringify(clearedQuestions)); 
+                localStorage.setItem('ota_v21_save', JSON.stringify(clearedQuestions)); 
             }
             if (currentIdx < questions.length - 1) document.getElementById('next-btn').classList.remove('hidden');
-            else document.getElementById('game-msg').innerHTML = "<div class='text-amber-500 font-black text-3xl'>🎉 全問クリア！ おめでとう！ 🎉</div>";
+            else document.getElementById('game-msg').innerHTML = "<div class='text-amber-500 font-black text-2xl'>🎉 全問クリア！ おめでとう！ 🎉</div>";
         }
 
         function nextQuestion() { currentIdx++; loadQuestion(); }
         window.onload = () => { initCanvas(); renderMenu(); };
     </script>
 </body>
-
 </html>
-
